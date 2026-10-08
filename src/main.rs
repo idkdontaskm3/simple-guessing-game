@@ -11,8 +11,10 @@ fn main() {
     println!("v{}\n", {version});
 
     let secret = rand::random_range(0..=100);
-    let mut guess = 0;
-    println!("Input a Guess [0-100]");
+    let mut guess = String::new();
+    println!("Input a Guess [0-100]:");
+    io::stdin().read_line(&mut guess).expect("Failed to read");
+    println!("Your guess: {}", guess.trim());
+    
     println!("DEBUG-SECRET: {}", {secret});
-
 }
