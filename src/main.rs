@@ -1,8 +1,9 @@
-use std::io::{self};
+use std::io::{self, Write};
 use std::cmp::Ordering;
 
 fn main() {
     let version = "0.1.0n"; // n- nightly a- alpha b- beta p- production
+    let secret = rand::random_range(0..=100);
 
     println!("######################");
     println!("# simpleGuessingGame #");
@@ -10,14 +11,9 @@ fn main() {
 
     println!("v{}\n", {version});
 
-    let secret = rand::random_range(0..=100);
-    //let mut guess = String::new();
+    print!("Input Your Guess [0-100]: ");
+    io::stdout().flush().expect("Couldn't flush stdout");
 
-    //println!("Input a Guess [0-100]:");
-    //io::stdin().read_line(&mut guess).expect("Failed to read");
-    //println!("Your guess: {}", guess.trim());
-
-    println!("Input Your Guess [0-100]:");
     let guess: u8 = fetch_guess();
     println!("your guess: {}", guess);
     
