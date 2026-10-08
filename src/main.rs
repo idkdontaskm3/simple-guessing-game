@@ -1,3 +1,18 @@
+use std::io::{self};
+use std::cmp::Ordering;
+
 fn main() {
-    println!("Hello, world!");
+    let version = "0.1.0n"; // n- nightly a- alpha b- beta p- production
+
+    println!("######################");
+    println!("# simpleGuessingGame #");
+    println!("######################\n");
+
+    println!("v{}\n", {version});
+
+    let secret = rand::random_range(0..=100);
+    let mut guess = 0;
+    println!("Input a Guess [0-100]");
+    println!("DEBUG-SECRET: {}", {secret});
+
 }
