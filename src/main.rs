@@ -16,6 +16,10 @@ fn main() {
     //println!("Input a Guess [0-100]:");
     //io::stdin().read_line(&mut guess).expect("Failed to read");
     //println!("Your guess: {}", guess.trim());
+
+    println!("Input Your Guess [0-100]:");
+    let guess: u8 = fetch_guess();
+    println!("your guess: {}", guess);
     
     println!("DEBUG-SECRET: {}", {secret});
 }
@@ -23,12 +27,12 @@ fn main() {
 fn fetch_guess() -> u8 {
     loop {
         let mut guess = String::new();
-        println!("Input your guess [0-100]:");
+
         io::stdin()
             .read_line(&mut guess)
             .expect("Failed to read!");
 
-        match guess.trim() {
+        match guess.trim().parse() {
             Ok(num) => return num,
             Err(_) => println!("Invalid, try again"),
         }
