@@ -1,9 +1,14 @@
 use std::io::{self, Write};
 use std::cmp::Ordering;
+use eframe::egui;
 
-fn main() {
-    let version = "0.1.0a"; // n- nightly a- alpha b- beta p- production
+fn main() -> eframe::Result {
+    env_logger::init();
+    let version = "0.2.0n"; // n- nightly a- alpha b- beta p- production
     let secret = rand::random_range(0..=100);
+
+    let native_options = eframe::NativeOptions::default();
+    eframe::run_native("SimpleGuessingGame", native_options,Box::new(|cc| Ok(Box::new(SimpleGuessingGame::new(cc)))));
 
     println!("######################");
     println!("# simpleGuessingGame #");
@@ -32,8 +37,32 @@ fn main() {
                 print!("too high! total guesses: {}\ninput next: ", total_guesses);
                 io::stdout().flush().expect("Couldn't flush stdout, line 35");
             },
-            Ordering::Equal => { println!("correct! total guesses: {}", total_guesses); break; },
+            Ordering::Equal => {
+                println!("correct! total guesses: {}", total_guesses);
+                break Ok(());
+            },
         }
+    }
+}
+
+#[derive(Default)]
+struct SimpleGuessingGame {}
+impl SimpleGuessingGame {
+    fn new(cc: &eframe::CreationContext<'_>) -> Self {
+        // Customize egui here with cc.egui_ctx.set_fonts and cc.egui_ctx.set_global_style.
+        // Restore app state using cc.storage (requires the "persistence" feature).
+        // Use the cc.gl (a glow::Context) to create graphics shaders and buffers that you can use
+        // for e.g. egui::PaintCallback.
+        Self::default()
+    }
+}
+
+impl eframe::App for SimpleGuessingGame {
+    fn ui (&mut self, ui: &mut egui::Ui, frame: &mut eframe::Frame) {
+        // TODO - like everything ;-;
+        egui::CentralPanel::default().show(ui, |ui| {
+            ui.heading("SimpleGuessingGame");
+        });
     }
 }
 
