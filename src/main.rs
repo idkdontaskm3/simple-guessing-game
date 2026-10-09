@@ -18,6 +18,7 @@ fn main() {
     println!("your guess: {}", guess);
     
     println!("DEBUG-SECRET: {}", {secret});
+    println!("DEBUG-CI");
 }
 
 fn fetch_guess() -> u8 {
