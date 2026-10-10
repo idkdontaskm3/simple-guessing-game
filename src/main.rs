@@ -13,6 +13,7 @@ struct SimpleGuessingGame {
     guess_input: String,
     guess: Option <u8>,
     secret: u8,
+    correct: bool,
 }
 
 impl SimpleGuessingGame {
@@ -20,7 +21,8 @@ impl SimpleGuessingGame {
         let secret: u8 = rand::random_range(0..100);
         let guess_input: String = String::from("");
         let guess: Option <u8> = None;
-        Self { secret, guess, guess_input, ..Self::default() }
+        let correct: bool = false;
+        Self { secret, guess, guess_input, correct, ..Self::default() }
     }
 }
 
@@ -39,7 +41,14 @@ impl eframe::App for SimpleGuessingGame {
             ui.horizontal( |ui| {
                 ui.label(format!("Your guess: {:?}", self.guess.unwrap_or(0)));
                 ui.label(format!("DEBUG_SECRET: {:?}", self.secret));
+                ui.label(format!("Correct: {:?}", self.correct));
             });
         });
+
+        if self.guess.unwrap_or(0) == self.secret {
+            self.correct = true;
+        } else {
+            self.correct = false;
+        }
     }
 }
