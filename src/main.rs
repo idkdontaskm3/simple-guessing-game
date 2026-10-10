@@ -29,7 +29,7 @@ impl SimpleGuessingGame {
 impl eframe::App for SimpleGuessingGame {
     fn ui (&mut self, ui: &mut egui::Ui, _frame: &mut eframe::Frame) {
         egui::CentralPanel::default().show(ui, |ui| {
-            ui.heading("SimpleGuessingGame v0.2.0-nightly");
+            ui.heading("SimpleGuessingGame v0.2.0-alpha");
             ui.horizontal(|ui| {
                 ui.label("Input Your Guess: ");
                 ui.text_edit_singleline(&mut self.guess_input);
@@ -40,7 +40,6 @@ impl eframe::App for SimpleGuessingGame {
 
             ui.horizontal( |ui| {
                 ui.label(format!("Your guess: {:?}", self.guess.unwrap_or(0)));
-                ui.label(format!("DEBUG_SECRET: {:?}", self.secret));
                 ui.label(format!("Correct: {:?}", self.correct));
             });
         });
