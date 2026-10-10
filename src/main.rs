@@ -1,6 +1,7 @@
 //use std::io::{};
 //use std::cmp::Ordering;
 use eframe::egui;
+
 fn main() {
     env_logger::init();
     let native_options = eframe::NativeOptions::default();
@@ -13,6 +14,7 @@ struct SimpleGuessingGame {
     guess: Option <u8>,
     secret: u8,
 }
+
 impl SimpleGuessingGame {
     fn new(_cc: &eframe::CreationContext<'_>) -> Self {
         Self::default()
