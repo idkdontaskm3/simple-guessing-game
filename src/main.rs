@@ -1,6 +1,7 @@
 //use std::io::{};
-//use std::cmp::Ordering;
+use std::cmp::Ordering;
 use eframe::egui;
+use std::process;
 
 fn main() {
     env_logger::init();
@@ -10,10 +11,11 @@ fn main() {
 
 #[derive(Default)]
 struct SimpleGuessingGame {
+    secret: u8,
     guess_input: String,
     guess: Option <u8>,
-    secret: u8,
-    correct: bool,
+    correct: String,
+    total_guesses: u16,
 }
 
 impl SimpleGuessingGame {
@@ -21,8 +23,9 @@ impl SimpleGuessingGame {
         let secret: u8 = rand::random_range(0..100);
         let guess_input: String = String::from("");
         let guess: Option <u8> = None;
-        let correct: bool = false;
-        Self { secret, guess, guess_input, correct, ..Self::default() }
+        let correct: String = String::from("False");
+        let total_guesses: u16 = 0;
+        Self { secret, guess, guess_input, correct, total_guesses, ..Self::default() }
     }
 }
 
@@ -35,19 +38,27 @@ impl eframe::App for SimpleGuessingGame {
                 ui.text_edit_singleline(&mut self.guess_input);
                 if ui.button("Guess").clicked() {
                     self.guess = self.guess_input.trim().parse().ok();
+                    self.total_guesses = self.total_guesses + 1;
                 }
             });
 
             ui.horizontal( |ui| {
                 ui.label(format!("Your guess: {:?}", self.guess.unwrap_or(0)));
-                ui.label(format!("Correct: {:?}", self.correct));
+                ui.label(format!("Correct: {}", self.correct));
+                ui.label(format!("Total Guesses: {:?}", self.total_guesses));
+            });
+
+            ui.horizontal(|ui| {
+                if ui.button("Exit").clicked() {
+                    process::exit(0);
+                }
             });
         });
 
-        if self.guess.unwrap_or(0) == self.secret {
-            self.correct = true;
-        } else {
-            self.correct = false;
-        }
+        self.correct = match self.guess.unwrap_or(0).cmp(&self.secret) {
+            Ordering::Greater => String::from("nah, too high"),
+            Ordering::Less => String::from("nah, too low"),
+            Ordering::Equal => String::from("Correct!"),
+        };
     }
 }
