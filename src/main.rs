@@ -17,16 +17,17 @@ struct SimpleGuessingGame {
 
 impl SimpleGuessingGame {
     fn new(_cc: &eframe::CreationContext<'_>) -> Self {
-        Self::default()
+        let secret: u8 = rand::random_range(0..100);
+        let guess_input: String = String::from("");
+        let guess: Option <u8> = None;
+        Self { secret, guess, guess_input, ..Self::default() }
     }
 }
 
 impl eframe::App for SimpleGuessingGame {
     fn ui (&mut self, ui: &mut egui::Ui, _frame: &mut eframe::Frame) {
-        let secret = rand::random_range(0..100);
-
         egui::CentralPanel::default().show(ui, |ui| {
-            ui.heading("SimpleGuessingGame v0.2.0n");
+            ui.heading("SimpleGuessingGame v0.2.0-nightly");
             ui.horizontal(|ui| {
                 ui.label("Input Your Guess: ");
                 ui.text_edit_singleline(&mut self.guess_input);
