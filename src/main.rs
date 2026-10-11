@@ -32,7 +32,7 @@ impl eframe::App for SimpleGuessingGame {
     fn ui (&mut self, ui: &mut egui::Ui, _frame: &mut eframe::Frame) {
         
         egui::CentralPanel::default().show(ui, |ui| {
-            ui.heading("SimpleGuessingGame v0.2.0-alpha");
+            ui.heading("SimpleGuessingGame v0.2.0-beta");
             if self.guess != Some(self.secret) {
                 ui.horizontal(|ui| {
                     ui.label("Input Your Guess: ");
