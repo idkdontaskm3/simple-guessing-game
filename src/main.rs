@@ -4,7 +4,6 @@ use eframe::egui;
 use std::process;
 
 fn main() {
-    env_logger::init();
     let native_options = eframe::NativeOptions::default();
     eframe::run_native("SimpleGuessingGame", native_options,Box::new(|cc| Ok(Box::new(SimpleGuessingGame::new(cc))))).unwrap();
 }
@@ -31,28 +30,41 @@ impl SimpleGuessingGame {
 
 impl eframe::App for SimpleGuessingGame {
     fn ui (&mut self, ui: &mut egui::Ui, _frame: &mut eframe::Frame) {
+        
         egui::CentralPanel::default().show(ui, |ui| {
             ui.heading("SimpleGuessingGame v0.2.0-alpha");
-            ui.horizontal(|ui| {
-                ui.label("Input Your Guess: ");
-                ui.text_edit_singleline(&mut self.guess_input);
-                if ui.button("Guess").clicked() {
-                    self.guess = self.guess_input.trim().parse().ok();
-                    self.total_guesses = self.total_guesses + 1;
-                }
-            });
+            if self.guess != Some(self.secret) {
+                ui.horizontal(|ui| {
+                    ui.label("Input Your Guess: ");
+                    ui.text_edit_singleline(&mut self.guess_input);
+                    if ui.button("Guess").clicked() {
+                        self.guess = self.guess_input.trim().parse().ok();
+                        self.total_guesses = self.total_guesses + 1;
+                    }
+                });
 
-            ui.horizontal( |ui| {
-                ui.label(format!("Your guess: {:?}", self.guess.unwrap_or(0)));
-                ui.label(format!("Correct: {}", self.correct));
-                ui.label(format!("Total Guesses: {:?}", self.total_guesses));
-            });
+                ui.horizontal(|ui| {
+                    ui.label(format!("Your guess: {:?}", self.guess.unwrap_or(0)));
+                    ui.label(format!("Correct: {}", self.correct));
+                    ui.label(format!("Total Guesses: {:?}", self.total_guesses));
+                });
 
-            ui.horizontal(|ui| {
-                if ui.button("Exit").clicked() {
-                    process::exit(0);
-                }
-            });
+                ui.horizontal(|ui| {
+                    if ui.button("Exit").clicked() {
+                        process::exit(0);
+                    }
+                });
+            } else {
+                ui.horizontal(|ui| {
+                    ui.label(format!("Correct! Total Guesses: {:?}", self.total_guesses));
+                });
+
+                ui.horizontal_top(|ui| {
+                    if ui.button("Exit").clicked() {
+                        process::exit(0);
+                    }
+                });
+            }
         });
 
         self.correct = match self.guess.unwrap_or(0).cmp(&self.secret) {
