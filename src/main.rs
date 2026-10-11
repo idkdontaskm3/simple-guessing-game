@@ -6,7 +6,7 @@ use std::process;
 fn main() {
     let native_options = eframe::NativeOptions {
         viewport: egui::ViewportBuilder::default()
-            .with_inner_size([400.0, 125.0]),
+            .with_inner_size([460.0, 125.0]),
         ..Default::default()
     };
     eframe::run_native("SimpleGuessingGame", native_options,Box::new(|cc| Ok(Box::new(SimpleGuessingGame::new(cc))))).unwrap();
