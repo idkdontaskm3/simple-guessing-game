@@ -4,7 +4,11 @@ use eframe::egui;
 use std::process;
 
 fn main() {
-    let native_options = eframe::NativeOptions::default();
+    let native_options = eframe::NativeOptions {
+        viewport: egui::ViewportBuilder::default()
+            .with_inner_size([400.0, 125.0]),
+        ..Default::default()
+    };
     eframe::run_native("SimpleGuessingGame", native_options,Box::new(|cc| Ok(Box::new(SimpleGuessingGame::new(cc))))).unwrap();
 }
 
@@ -36,10 +40,12 @@ impl eframe::App for SimpleGuessingGame {
             if self.guess != Some(self.secret) {
                 ui.horizontal(|ui| {
                     ui.label("Input Your Guess: ");
-                    ui.text_edit_singleline(&mut self.guess_input);
-                    if ui.button("Guess").clicked() {
+                    let response = ui.text_edit_singleline(&mut self.guess_input);
+                    let enter_pressed = response.lost_focus() && ui.input(|i| i.key_pressed(egui::Key::Enter));
+                    if ui.button("Guess").clicked() || enter_pressed {
                         self.guess = self.guess_input.trim().parse().ok();
                         self.total_guesses = self.total_guesses + 1;
+                        response.request_focus();
                     }
                 });
 
