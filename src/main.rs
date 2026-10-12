@@ -6,7 +6,7 @@ use std::process;
 fn main() {
     let native_options = eframe::NativeOptions {
         viewport: egui::ViewportBuilder::default()
-            .with_inner_size([460.0, 125.0]),
+            .with_inner_size([500.0, 115.0]),
         ..Default::default()
     };
     eframe::run_native("SimpleGuessingGame", native_options,Box::new(|cc| Ok(Box::new(SimpleGuessingGame::new(cc))))).unwrap();
@@ -39,7 +39,7 @@ impl eframe::App for SimpleGuessingGame {
             ui.heading("SimpleGuessingGame v0.2.0-beta");
             if self.guess != Some(self.secret) {
                 ui.horizontal(|ui| {
-                    ui.label("Input Your Guess: ");
+                    ui.label("Input Your Guess [0-100]: ");
                     let response = ui.text_edit_singleline(&mut self.guess_input);
                     let enter_pressed = response.lost_focus() && ui.input(|i| i.key_pressed(egui::Key::Enter));
 
