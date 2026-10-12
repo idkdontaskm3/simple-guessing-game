@@ -42,6 +42,7 @@ impl eframe::App for SimpleGuessingGame {
                     ui.label("Input Your Guess: ");
                     let response = ui.text_edit_singleline(&mut self.guess_input);
                     let enter_pressed = response.lost_focus() && ui.input(|i| i.key_pressed(egui::Key::Enter));
+
                     if ui.button("Guess").clicked() || enter_pressed {
                         self.guess = self.guess_input.trim().parse().ok();
                         self.total_guesses = self.total_guesses + 1;
@@ -66,6 +67,14 @@ impl eframe::App for SimpleGuessingGame {
                 });
 
                 ui.horizontal_top(|ui| {
+                    if ui.button("Play Again?").clicked() {
+                        self.secret = rand::random_range(0..100);
+                        self.guess_input = String::from("");
+                        self.guess = None;
+                        self.correct = String::from("False");
+                        self.total_guesses = 0;
+                    }
+                    
                     if ui.button("Exit").clicked() {
                         process::exit(0);
                     }
