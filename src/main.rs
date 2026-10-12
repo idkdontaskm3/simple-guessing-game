@@ -28,7 +28,7 @@ impl SimpleGuessingGame {
         let guess: Option <u8> = None;
         let correct: String = String::from("False");
         let total_guesses: u16 = 0;
-        Self { secret, guess, guess_input, correct, total_guesses, ..Self::default() }
+        Self { secret, guess_input, guess, correct, total_guesses, ..Self::default() }
     }
 }
 
